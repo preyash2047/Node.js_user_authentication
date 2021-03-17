@@ -12,9 +12,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
-    "mongoose": "^5.12.0",
     "sequelize": "^6.5.1",
-    "sqlite": "^4.0.19",
     "sqlite3": "^5.0.2"
   }
 }
