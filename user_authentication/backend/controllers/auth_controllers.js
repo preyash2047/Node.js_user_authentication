@@ -1,14 +1,16 @@
-const BlogModel = require('../models/blog_model')
+const User_auth_Model = require('../models/user_auth_model')
+const bcrypt = require('bcrypt')
 
-//blog
-exports.getBlog = async (req, res, next)=>{
+//user
+exports.getUser_auth = async (req, res, next)=>{
     const data = req.body.id;
-
     try {
-        const BlogData = await BlogModel.findOne({where: {id: data}});
+        const User_authData = await User_auth_Model.findOne({where: {id: data}});
+        console.log(User_authData);
+        //().then((user) 
         res.status(200).json({
             success: true, 
-            data: BlogData
+            data: User_authData
         });
     } catch (error) {
         res.status(500).json({
@@ -17,15 +19,22 @@ exports.getBlog = async (req, res, next)=>{
         });
     }    
 }
-exports.postBlog = async (req, res, next) => {
-    const data = req.body;
+exports.postUser_auth = async (req, res, next) => {
+    let data = req.body;
     console.log(data);
-    try {
-        const blog = await BlogModel.create(data);
-        console.log(blog)
+    console.log(data.username);
+    console.log(data.password);
+    // generate salt to hash password
+    try {        
+        const salt = await bcrypt.genSalt(10);
+
+        // now we set user password to hashed password
+        data.password = await bcrypt.hash(data.password, salt);
+        console.log(data);
+        const users = await User_auth_Model.create(data);
         res.status(200).json({
             success: true,
-            message: "blog created."
+            message: "user created."
         });
 
     } catch (error) {
@@ -35,16 +44,16 @@ exports.postBlog = async (req, res, next) => {
         });
     }
 }
-exports.putBlog = async(req, res, next) => {
+exports.putUser_auth = async(req, res, next) => {
     const data = req.body;
     // console.log(data);
     try {
-        const blog = await BlogModel.update(data, {
+        const users = await User_auth_Model.update(data, {
             where: {id: data['id']}
         });
         res.status(200).json({
             success: true,
-            message: "blog Updated"
+            message: "users Updated"
         });
 
     } catch (error) {   
@@ -54,11 +63,11 @@ exports.putBlog = async(req, res, next) => {
         });
     }
 }
-exports.deleteBlog = async(req, res, next) => {
+exports.deleteUser_auth = async(req, res, next) => {
     const data = req.body;
     // console.log(data);
     try {
-        const home = await BlogModel.destroy( {
+        const home = await User_auth_Model.destroy( {
             where: {id: data['id']}
         });
         res.status(200).json({

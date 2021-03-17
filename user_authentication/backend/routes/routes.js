@@ -1,6 +1,7 @@
 const express = require('express');
 
 const itemsController = require('../controllers/blog_controllers');
+const authController = require('../controllers/auth_controllers');
 
 const router = express.Router();
 
@@ -11,9 +12,9 @@ router.put("/blog", itemsController.putBlog);
 router.delete("/blog", itemsController.deleteBlog); 
 
 // For user Content
-router.get("/user", itemsController.getUser_auth );
-router.post("/user", itemsController.postUser_auth);
-router.put("/user", itemsController.putUser_auth);
-router.delete("/user", itemsController.deleteBlog); 
+router.get("/user", authController.getUser_auth );
+router.post("/user", authController.postUser_auth);
+router.put("/user", authController.putUser_auth);
+router.delete("/user", authController.deleteUser_auth); 
 
 module.exports = router;
