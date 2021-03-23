@@ -19,7 +19,7 @@ const user_auth = sequelize.define('User_auth',{
     },
 
     email: {
-        type: DataTypes.email,// TEXT("TEXT"),
+        type: DataTypes.TEXT("TEXT"),
         allowNull: false,
     }
 
