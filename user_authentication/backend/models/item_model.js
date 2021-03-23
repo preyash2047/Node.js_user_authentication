@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database');
-const User_Auth = require('../models/user_auth_model')
+const User_Auth = require('./user_auth_model')
 
-const blog = sequelize.define('blog',{
+const item = sequelize.define('item',{
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -15,7 +15,7 @@ const blog = sequelize.define('blog',{
         allowNull: false,
     },
 
-    blog: {
+    item: {
         type: DataTypes.TEXT("LONG"),
         allowNull: false,
     },
@@ -30,5 +30,5 @@ const blog = sequelize.define('blog',{
     }
 })
 
-User_Auth.hasMany(blog); // Set one to many relationship
-module.exports = blog;
+User_Auth.hasMany(item); // Set one to many relationship
+module.exports = item;

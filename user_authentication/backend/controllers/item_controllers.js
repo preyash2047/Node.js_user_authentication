@@ -1,14 +1,14 @@
-const BlogModel = require('../models/blog_model')
+const ItemModel = require('../models/item_model')
 
-//blog
-exports.getBlog = async (req, res, next)=>{
+//item
+exports.getItem = async (req, res, next)=>{
     const data = req.body.id;
 
     try {
-        const BlogData = await BlogModel.findOne({where: {id: data}});
+        const ItemData = await ItemModel.findOne({where: {id: data}});
         res.status(200).json({
             success: true, 
-            data: BlogData
+            data: ItemData
         });
     } catch (error) {
         res.status(500).json({
@@ -17,15 +17,15 @@ exports.getBlog = async (req, res, next)=>{
         });
     }    
 }
-exports.postBlog = async (req, res, next) => {
+exports.postItem = async (req, res, next) => {
     const data = req.body;
     console.log(data);
     try {
-        const blog = await BlogModel.create(data);
-        console.log(blog)
+        const item = await ItemModel.create(data);
+        console.log(item)
         res.status(200).json({
             success: true,
-            message: "blog created."
+            message: "item created."
         });
 
     } catch (error) {
@@ -35,16 +35,16 @@ exports.postBlog = async (req, res, next) => {
         });
     }
 }
-exports.putBlog = async(req, res, next) => {
+exports.putItem = async(req, res, next) => {
     const data = req.body;
     // console.log(data);
     try {
-        const blog = await BlogModel.update(data, {
+        const item = await ItemModel.update(data, {
             where: {id: data['id']}
         });
         res.status(200).json({
             success: true,
-            message: "blog Updated"
+            message: "item Updated"
         });
 
     } catch (error) {   
@@ -54,11 +54,11 @@ exports.putBlog = async(req, res, next) => {
         });
     }
 }
-exports.deleteBlog = async(req, res, next) => {
+exports.deleteItem = async(req, res, next) => {
     const data = req.body;
     // console.log(data);
     try {
-        const home = await BlogModel.destroy( {
+        const home = await ItemModel.destroy( {
             where: {id: data['id']}
         });
         res.status(200).json({
