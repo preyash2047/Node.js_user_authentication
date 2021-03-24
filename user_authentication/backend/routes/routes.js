@@ -15,6 +15,9 @@ router.delete("/item", itemsController.deleteItem);
 router.get("/user", authController.getUser_auth );
 router.post("/user", authController.postUser_auth);
 router.put("/user", authController.putUser_auth);
-router.delete("/user", authController.deleteUser_auth); 
+router.delete("/user", authController.deleteUser_auth);
+router.post("/login", authController.postLogin);
+router.post("/logout", authController.postLogout);
+
 
 module.exports = router;

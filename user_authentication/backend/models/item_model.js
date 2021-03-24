@@ -15,7 +15,7 @@ const item = sequelize.define('item',{
         allowNull: false,
     },
 
-    item: {
+    disc: {
         type: DataTypes.TEXT("LONG"),
         allowNull: false,
     },

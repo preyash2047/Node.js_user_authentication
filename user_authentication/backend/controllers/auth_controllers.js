@@ -1,6 +1,8 @@
 const User_auth_Model = require('../models/user_auth_model')
 const bcrypt = require('bcrypt');
 const { isNull } = require('lodash');
+const jwt = require('jsonwebtoken');
+
 
 //user
 exports.getUser_auth = async (req, res, next)=>{
@@ -21,30 +23,17 @@ exports.getUser_auth = async (req, res, next)=>{
     }    
 }
 exports.postUser_auth = async (req, res, next) => {
-    //console.log("data:");
-    //console.log(data);
     let data = req.body;
-    //console.log(data.email);
-    //console.log(data.password);
-    // generate salt to hash password
     try {
         const salt = await bcrypt.genSalt(10);
         const temp_data = await User_auth_Model.findAll({
             attributes : ["email"],
             where :{"email":data.email}
         });
-        //console.log("temp_data: "); 
-        //console.log(temp_data); 
-
-        //console.log(temp_data.length);
-
         if (temp_data.length == 0){
             console.log("inif condition"); 
             // now we set user password to hashed password
-            data.password = await bcrypt.hash(data.password, salt);
-            //console.log("data in if condition");
-            //console.log(data);
-            
+            data.password = await bcrypt.hash(data.password, salt);            
             const users = await User_auth_Model.create(data);
             res.status(200).json({
                 success: true,
@@ -112,6 +101,76 @@ exports.deleteUser_auth = async(req, res, next) => {
             message: "items Deleted"
         });
     } catch (error) {
+        res.status(500).json({
+            success: false, 
+            message: error
+        });
+    }
+}
+
+//Login
+exports.postLogin = async(req, res, next) => {
+    let req_data = req.body;
+    console.log(req_data);
+    try {
+        async function checkLogin() {
+            const db_data = await User_auth_Model.findAll({
+                where: {"email":req_data.email}
+            });
+            console.log(db_data);
+            console.log(req_data.password, db_data[0].password);
+            const match = await bcrypt.compare(req_data.password, db_data[0].password);
+            
+            if(match) {
+
+                //return status
+                res.status(200).json({
+                    success: true,
+                    message: "Login Success"
+                });
+            } else{
+                res.status(500).json({
+                    success: false,
+                    message: "Invalid Login Credintial"
+                });
+            }
+        }
+        checkLogin();
+    } catch (error) {   
+        res.status(500).json({
+            success: false, 
+            message: error
+        });
+    }
+}
+
+exports.postLogout = async(req, res, next) => {
+    let req_data = req.body;
+    //console.log(req_data);
+    try {
+        async function checkLogin() {
+            const db_data = await User_auth_Model.findOne({
+                where :{"email":req_data.email}
+            });
+            const match = await bcrypt.compare(req_data.password, db_data.password);
+        
+            if(match) {
+                //JWT code
+
+                //return status
+                res.status(200).json({
+                    success: true,
+                    message: "Login Success"
+                });
+            } else{
+                res.status(500).json({
+                    success: false,
+                    message: "Invalid Login Credintial"
+                });
+            }
+        }
+        checkPassword();
+    } catch (error) {   
         res.status(500).json({
             success: false, 
             message: error
