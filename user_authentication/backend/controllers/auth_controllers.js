@@ -2,6 +2,13 @@ const User_auth_Model = require('../models/user_auth_model')
 const bcrypt = require('bcrypt');
 const { isNull } = require('lodash');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+// get config vars
+dotenv.config();
+
+// access config var
+process.env.TOKEN_SECRET;
 
 
 //user
